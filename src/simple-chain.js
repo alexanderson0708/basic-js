@@ -1,28 +1,48 @@
 import { NotImplementedError } from '../extensions/index.js';
 
-/**
- * Implement chainMaker object according to task description
- * 
- */
-export default {
+export default  {
+  "link": [],
+
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    const chainLength = chainMaker.link.filter(function(x) {
+      return x !== undefined;
+    });
+    return chainLength.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink(value) {
+    chainMaker.link.push(value);
+    return chainMaker;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink(position) {
+    const clearChain = chainMaker.link.filter(function(x) {
+      return x !== undefined;
+    });
+    chainMaker.link = clearChain;
+
+    if(!Number.isInteger(position) ||
+      position <= 0 ||
+      position > chainMaker.link.length) {
+        chainMaker.link = [];
+        throw new Error("You can't remove incorrect link!");
+    }
+    chainMaker.link[position - 1] = undefined;
+    return chainMaker;
   },
   reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    chainMaker.link = chainMaker.link.reverse();
+    return chainMaker;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    const clearChain = chainMaker.link.filter(function(x) {
+      return x !== undefined;
+    });
+
+    let result = "";
+    clearChain.forEach(function (element) {
+      result += "( " + element + " )~~";
+    });
+    chainMaker.link = [];
+    return result.slice(0,-2);
   }
 };
+
